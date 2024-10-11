@@ -222,9 +222,9 @@ for(uint8_t cnt=0;cnt<50;cnt++)
 
 	  			HAL_Delay(2);
 
-	  			if(tmp64u_0 != OD_PERSIST_COMM.x6000_velocity)
+	  			if(tmp64u_0 != OD_PERSIST_COMM.x6000_F103_VAR64_6000_TX)
 	  			{
-	  			tmp64u_0 = OD_PERSIST_COMM.x6000_velocity;
+	  			tmp64u_0 = OD_PERSIST_COMM.x6000_F103_VAR64_6000_TX;
 	  			huart1.gState = HAL_UART_STATE_READY;
 	  			HAL_UART_Transmit_DMA( &huart1, (uint8_t*)(&tmp64u_0), 8);
 	  			}
