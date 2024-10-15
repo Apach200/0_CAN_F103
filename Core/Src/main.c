@@ -60,9 +60,10 @@ uint8_t Tx_Array[16]={0x5e,0x6d,0x7f,0x8a,0xa5,0xb6,0xc7,0x1c,0x2e,0x14,0x15,0x1
 uint8_t Rx_Array[16]={0};
 CAN_TxHeaderTypeDef Tx_Header;
 uint32_t              TxMailbox;
-uint64_t            tmp64u   =0x0e0f0a0b;
-uint64_t            tmp64u_1 = 0x0e0f0a0b;
-uint64_t            tmp64u_0 = 0x0e0f0a0b;
+uint64_t            tmp64u_1 = 0x1e1f010b1f1f;
+uint64_t            tmp64u_0 = 0x0e0f0a0b0f0f;
+uint32_t            tmp32u_0 = 0x0e0f0a0b;
+uint32_t            tmp32u_1 = 0x1e1f0a11;
 char String_0[]={"String_for_Test_UART     "};
 uint32_t Ticks=0;
 uint32_t cnt32=0;
@@ -198,8 +199,6 @@ for(uint8_t cnt=0;cnt<50;cnt++)
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, !canOpenNodeSTM32.outStatusLEDGreen);
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5 ,  canOpenNodeSTM32.outStatusLEDRed  );
 
-	canopen_app_process();
-	HAL_Delay(400);
 
   while (1)
   {
@@ -208,29 +207,24 @@ for(uint8_t cnt=0;cnt<50;cnt++)
 
 	  canopen_app_process();
 
-	  		  if(HAL_GetTick() - Ticks>2000)
-	  		  {
-//	  			CO_TPDOsendRequest( &canOpenNodeSTM32.canOpenStack->TPDO[0] );
-//	  			CO_TPDOsendRequest( &canOpenNodeSTM32.canOpenStack->TPDO[1] );
 
-	  			if(tmp64u_1 != OD_PERSIST_COMM.x6001_F103_VAR64_6001_TX)
+	  		  if(HAL_GetTick() - Ticks>499)
+	  		  {Ticks = HAL_GetTick();}
+
+	  			if(tmp32u_0 != OD_PERSIST_COMM.x6001_F103_VAR32_6001R)
 	  			{
-	  			tmp64u_1 = OD_PERSIST_COMM.x6001_F103_VAR64_6001_TX;
+	  			tmp32u_0 = OD_PERSIST_COMM.x6001_F103_VAR32_6001R;
 	  			huart1.gState = HAL_UART_STATE_READY;
-	  			HAL_UART_Transmit_DMA( &huart1, (uint8_t*)(&tmp64u_1), 8);
+	  			HAL_UART_Transmit_DMA( &huart1, (uint8_t*)(&tmp32u_0), 4);
 	  			}
 
-	  			HAL_Delay(2);
+//	  			if(tmp32u_1 != OD_PERSIST_COMM.x6002_F103_VAR32_6002R)
+//	  			{
+//	  				tmp32u_1 = OD_PERSIST_COMM.x6002_F103_VAR32_6002R;
+//	  			huart1.gState = HAL_UART_STATE_READY;
+//	  			HAL_UART_Transmit_DMA( &huart1, (uint8_t*)(&tmp32u_1), 4);
+//	  			}
 
-	  			if(tmp64u_0 != OD_PERSIST_COMM.x6000_F103_VAR64_6000_TX)
-	  			{
-	  			tmp64u_0 = OD_PERSIST_COMM.x6000_F103_VAR64_6000_TX;
-	  			huart1.gState = HAL_UART_STATE_READY;
-	  			HAL_UART_Transmit_DMA( &huart1, (uint8_t*)(&tmp64u_0), 8);
-	  			}
-
-	  			Ticks = HAL_GetTick();
-	  		 }
 
 
     /* USER CODE END WHILE */
